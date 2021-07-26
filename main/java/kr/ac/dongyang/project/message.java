@@ -3,14 +3,14 @@ package kr.ac.dongyang.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class message extends AppCompatActivity {
-
-
+    int flag=0;//사용자가 버튼을 눌렀는지 확인하는 플래그변수
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,18 +20,18 @@ public class message extends AppCompatActivity {
         btnY.setOnClickListener(new View.OnClickListener(){//넘어졌을 경우
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(),"넘어짐",Toast.LENGTH_LONG).show();
+                flag=1;//버튼 누름
                 Intent intent = new Intent(getApplicationContext(), tcp.class);
                 intent.putExtra("button", "btnY");
-                //메시지 보내기 구현
-                
-                startService(intent);
+
+                startService(intent);//tcp 서비스에 전달
                 finish();
             }
         });
         btnN.setOnClickListener(new View.OnClickListener(){//넘어지지 않았을경우
             @Override
             public void onClick(View v) {
+                flag=1;//버튼 누름
                 //Toast.makeText(getApplicationContext(),"안넘어짐",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), tcp.class);
                 intent.putExtra("button", "btnN");
@@ -43,20 +43,25 @@ public class message extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), tcp.class);
-                intent.putExtra("button", "btnN");
-                startService(intent);
-                finish();
+                if (flag == 0) {//눌린 버튼이 없을때(사용자가 버튼을 안눌렀을때)
+                    Intent intent = new Intent(getApplicationContext(), tcp.class);
+                    intent.putExtra("button", "btnY");
+                    startService(intent);
+                    finish();
+                }
             }
-        }, 10000);//10초
+        }, 10000);//10초기다렸다가 꺼짐
+        flag=0;
+        Log.d("flag", String.valueOf(flag));
     }
 
     @Override
-    public void onBackPressed() {//메시지 화면에서 뒤로가기 누를때 꺼지게
-        //Toast.makeText(this, "Back button pressed.", Toast.LENGTH_SHORT).show();
+    public void onBackPressed() {//메시지 화면에서 뒤로가기 눌렀을때
+        flag=1;//버튼 누름으로 판단
         Intent intent = new Intent(getApplicationContext(), tcp.class);
         intent.putExtra("button", "btnN");
         startService(intent);
         super.onBackPressed();
     }
+
 }
