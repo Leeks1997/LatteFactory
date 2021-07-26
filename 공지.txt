@@ -1,3 +1,4 @@
   # LatteFactory
   공지) java/kr/ac/dongyang/project 폴더에 자바코드 들가있고 res폴더는 xml파일 및 이미지 모음입니다..
-  manifest파일은 들가시면 바로 보일거에요
+
+fork하시는건 자유지만 다 완성되고 하시는게 정리할때 편할거라 생각합니당
