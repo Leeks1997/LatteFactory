@@ -2,7 +2,10 @@ package kr.ac.dongyang.project;
 
 import android.app.Service;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,13 +20,16 @@ import java.io.PrintWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.Locale;
 
 public class tcp extends Service {
     String button;
     Socket socket;
-
+    private GpsTracker gpsTracker;
     @Override
     public void onCreate() {
+        //생성되었을때 실행
         ServerThread thread = new ServerThread();
         thread.start();
         Log.d("onCreate", "in onCreate");
@@ -32,16 +38,34 @@ public class tcp extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        //호출될때마다 실행
 
+        button = null;
         try {
             button = intent.getStringExtra("button");
+            //Log.d("onButton",button);
+            if(button.equals("btnY")){
+                //문자 보내기
+                gpsTracker = new GpsTracker(getApplicationContext());
+
+                double latitude = gpsTracker.getLatitude();//위도
+                double longitude = gpsTracker.getLongitude();//경도
+                String address = getCurrentAddress(latitude, longitude);//한글주소
+
+                String sendMessage = "https://www.google.com/maps/place/" + latitude +","+ longitude;
+                SmsManager sms = SmsManager.getDefault();
+                sms.sendTextMessage("01000000000", null, sendMessage, null, null);
+
+                Log.d("address latitude", String.valueOf(latitude));
+                Log.d("address longitude", String.valueOf(longitude));
+                Log.d("address",address);
+            }
             OutputPrint thread = new OutputPrint();
             thread.start();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -55,13 +79,37 @@ public class tcp extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-/*
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        Toast.makeText(this, "onTaskRemoved ", Toast.LENGTH_SHORT).show();
-        stopSelf();
+
+
+    //GPS 도로명 주소로 변환
+    public String getCurrentAddress( double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    7);
+        } catch (IOException ioException) {
+            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+            return "지오코더 서비스 사용불가";
+        } catch (IllegalArgumentException illegalArgumentException) {
+            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+            return "잘못된 GPS 좌표";
+
+        }
+
+        if (addresses == null || addresses.size() == 0) {
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            return "주소 미발견";
+
+        }
+
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString()+"\n";
+
     }
-*/
+
     class ServerThread extends Thread {
 
         public void run(){
@@ -110,7 +158,7 @@ public class tcp extends Service {
                 PrintWriter writer = new PrintWriter(out, true);
                 writer.println(button);
                 socket.close();
-                Log.d("button",button);
+                //Log.d("button",button);
             } catch (Exception e) {
                 e.printStackTrace();
             }
