@@ -11,6 +11,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,13 +44,18 @@ public class tcp extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent,int flags, int startId) {
         //호출될때마다 실행
 
         button = null;
+        //Log.d("id",login);
+        //String emCol;
+
         try {
-            button = intent.getStringExtra("button");
+            button = intent.getStringExtra("button"); //message에서 버튼을 눌렀을 때
             //Log.d("onButton",button);
+            //putExtra값 받아오기 -> loginActivity에서...
+            String login = intent.getStringExtra("id");
             if(button.equals("btnY")){
                 //문자 보내기
                 gpsTracker = new GpsTracker(getApplicationContext());
@@ -52,13 +64,37 @@ public class tcp extends Service {
                 double longitude = gpsTracker.getLongitude();//경도
                 String address = getCurrentAddress(latitude, longitude);//한글주소
 
-                String sendMessage = "https://www.google.com/maps/place/" + latitude +","+ longitude;
-                SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage("01000000000", null, sendMessage, null, null);
+                Response.Listener<String> responseListener = new Response.Listener<String>(){
+                    String emCol;
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject =  new JSONObject(response);
+                            Log.d("Array", String.valueOf(jsonObject));
+                            boolean success = jsonObject.getBoolean("success");
+                            if(success) {
+                                //int length = jsonObject.length();
+                                //for(int i=0; i <= length; i++){
+                                   // emCol = jsonObject.getString(String.valueOf(i));
+                                   // Log.d("emcol : ", emCol);
+                                //}
+                                emCol = jsonObject.getString("emCol1"); //반복문 빼고 하나만 받아오는걸로 
+                                String sendMessage = "https://www.google.com/maps/place/" + latitude +","+ longitude;
+                                SmsManager sms = SmsManager.getDefault();
+                                sms.sendTextMessage(emCol, null, sendMessage, null, null);
 
-                Log.d("address latitude", String.valueOf(latitude));
-                Log.d("address longitude", String.valueOf(longitude));
-                Log.d("address",address);
+                                Log.d("address latitude", String.valueOf(latitude));
+                                Log.d("address longitude", String.valueOf(longitude));
+                                Log.d("address",address);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                TcpRequest tRequest = new TcpRequest(login, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(tcp.this);
+                queue.add(tRequest);
             }
             OutputPrint thread = new OutputPrint();
             thread.start();
