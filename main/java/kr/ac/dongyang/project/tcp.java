@@ -34,6 +34,7 @@ public class tcp extends Service {
     String button;
     Socket socket;
     private GpsTracker gpsTracker;
+    String id;
     @Override
     public void onCreate() {
         //생성되었을때 실행
@@ -44,18 +45,23 @@ public class tcp extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent,int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         //호출될때마다 실행
 
         button = null;
-        //Log.d("id",login);
-        //String emCol;
+        try {
+            //loginActivity에서 id 받아오기
+            if (!intent.getStringExtra("id").isEmpty()) {//값이 있을때
+                id = intent.getStringExtra("id");
+                Log.d("tcp-id", id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             button = intent.getStringExtra("button"); //message에서 버튼을 눌렀을 때
             //Log.d("onButton",button);
-            //putExtra값 받아오기 -> loginActivity에서...
-            String login = intent.getStringExtra("id");
             if(button.equals("btnY")){
                 //문자 보내기
                 gpsTracker = new GpsTracker(getApplicationContext());
@@ -64,21 +70,19 @@ public class tcp extends Service {
                 double longitude = gpsTracker.getLongitude();//경도
                 String address = getCurrentAddress(latitude, longitude);//한글주소
 
+
                 Response.Listener<String> responseListener = new Response.Listener<String>(){
                     String emCol;
                     @Override
                     public void onResponse(String response) {
+                        Log.d("tcp", "in response");
                         try {
+
                             JSONObject jsonObject =  new JSONObject(response);
                             Log.d("Array", String.valueOf(jsonObject));
                             boolean success = jsonObject.getBoolean("success");
                             if(success) {
-                                //int length = jsonObject.length();
-                                //for(int i=0; i <= length; i++){
-                                   // emCol = jsonObject.getString(String.valueOf(i));
-                                   // Log.d("emcol : ", emCol);
-                                //}
-                                emCol = jsonObject.getString("emCol1"); //반복문 빼고 하나만 받아오는걸로 
+                                emCol = jsonObject.getString("emCol1");
                                 String sendMessage = "https://www.google.com/maps/place/" + latitude +","+ longitude;
                                 SmsManager sms = SmsManager.getDefault();
                                 sms.sendTextMessage(emCol, null, sendMessage, null, null);
@@ -92,7 +96,7 @@ public class tcp extends Service {
                         }
                     }
                 };
-                TcpRequest tRequest = new TcpRequest(login, responseListener);
+                TcpRequest tRequest = new TcpRequest(id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(tcp.this);
                 queue.add(tRequest);
             }
