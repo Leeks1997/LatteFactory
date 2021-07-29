@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,7 +57,7 @@ public class loginActivity extends Activity {
             }
         });
 
-        btn_Login.setOnClickListener(new View.OnClickListener() { // 여기 먹통...!
+        btn_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //edit에 현재 입력되어있는 값을 가져온다.
@@ -77,10 +78,12 @@ public class loginActivity extends Activity {
                                 editor.putString("password", password);
                                 editor.putBoolean("chx1", true);
                                 editor.commit();
-                                Intent intent = new Intent(loginActivity.this, MainActivity2.class);
-                                intent.putExtra("id",id);
-                                intent.putExtra("password",password);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                                Intent tcp = new Intent(getApplicationContext(), tcp.class);
+                                tcp.putExtra("id",id);//tcp 클래스에도 id정보 넘기
+                                startService(tcp);//서비스 시작은 startService
                                 startActivity(intent);
+                                finish();
                             } else { //로그인에 실패한 경우
                                 Toast.makeText(getApplicationContext(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                                 editor.clear();
@@ -92,6 +95,7 @@ public class loginActivity extends Activity {
                         }
                     }
                 };
+                // Volley 라이브러리를 이용해 실제 서버와 통신을 구현하는 부분
                 LoginRequest loginRequest = new LoginRequest(userID, userPass, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
                 queue.add(loginRequest);
