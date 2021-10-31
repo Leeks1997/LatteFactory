@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:id="@+id/drawerView"
+    android:background="#94c995">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        android:background="#94c995"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text="반갑습니다"
+            android:textColor="#ffffff"
+            android:textSize="14dp"></TextView>
+
+
+        <TextView
+            android:id="@+id/home_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="94dp"
+            android:layout_marginTop="80dp"
+            android:textColor="#ffffff"
+            android:textSize="26dp"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="130dp"
+            android:text="라떼팩토리와 함께 활기찬 하루 시작하세요"
+            android:textColor="#ffffff"
+            android:textSize="14dp"></TextView>
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+
