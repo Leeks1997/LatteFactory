@@ -29,11 +29,11 @@
             android:singleLine = "true"
             android:lines = "1"
             android:background="@drawable/edittext_rounded_corner"
-            android:hint="ID" />
+            android:hint=" ID" />
         <EditText
             android:id="@+id/password"
             android:background="@drawable/edittext_rounded_corner"
-            android:hint="PASSWORD"
+            android:hint=" PASSWORD"
             android:padding="5dp"
             android:inputType="textPassword"
             android:layout_width="match_parent"

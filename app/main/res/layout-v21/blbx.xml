@@ -12,31 +12,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_button"
-            android:backgroundTint="#94c995"
-            android:text="블랙박스 화면"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <VideoView
-            android:id="@+id/blackbox"
+            android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_height="200sp" />
     </LinearLayout>
 
 
@@ -57,7 +36,7 @@
                 android:backgroundTint="#94c995"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="@string/btn1" />
+                android:text="202110" />
 
             <Button
                 android:id="@+id/btn2"
@@ -121,23 +100,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="@string/btn8" />
-            <Button
-                android:id="@+id/btn9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn9" />
-
-            <Button
-                android:id="@+id/btn10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn10" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,60 +119,6 @@
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn11" />
-
-            <Button
-                android:id="@+id/btn12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn12" />
-
-            <Button
-                android:id="@+id/btn13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn13" />
-
-            <Button
-                android:id="@+id/btn14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn14" />
-
-            <Button
-                android:id="@+id/btn15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn15" />
-
-            <Button
-                android:id="@+id/btn16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#94c995"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="@string/btn16" />
 
         </LinearLayout>
     </ScrollView>
