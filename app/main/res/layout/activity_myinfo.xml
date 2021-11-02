@@ -40,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/user_change_bike" />
+                android:src="@drawable/user_change_bike"/>
+
 
         </LinearLayout>
 
@@ -182,7 +183,7 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
             <TextView
-                android:layout_width="10dp"
+                android:layout_width="10dp "
                 android:layout_height="wrap_content"
                 android:text="*"
                 android:textColor="#DC3A1F"
