@@ -16,6 +16,8 @@
 
         android:layout_margin="5dp"
         android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#53574F"
         android:text="넘어지셨습니까?"
         android:textSize="30dp" />
 
@@ -29,6 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:textColor="#53574F"
+            android:textStyle="bold"
             android:text="단순히 자전거가 넘어졌거나 가벼운 부상인 경우"
             android:textSize="15dp" />
 
@@ -57,6 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textColor="#53574F"
+                android:textStyle="bold"
                 android:text="를 눌러주시고 움직일 수 없을 정도로 부상을 입으신 경우" />
 
             <TextView
@@ -73,6 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:textColor="#53574F"
+            android:textStyle="bold"
             android:text=" 버튼을 눌러주세요." />
     </LinearLayout>
 
